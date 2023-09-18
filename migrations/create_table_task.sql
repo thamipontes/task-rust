@@ -5,6 +5,3 @@ create table task (
     "updated_at" timestamptz(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" varchar(50) NOT NULL
 );
-
-insert into task (name) values ('breakfast');
-insert into task (name) values ('Buy an apple');

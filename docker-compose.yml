@@ -1,32 +1,23 @@
 ﻿version: "3.8"
 services:
+  rust:
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres_db
+    links:
+      - postgres_db:postgres_db
   postgres_db:
     image: postgres
     environment:
       POSTGRES_PASSWORD: root
-      POSTGRES_USER: postgres
+      PGUSER: postgres
       POSTGRES_DB: tasks
     ports: 
       - "5433:5432"
     volumes:
       - pgdata:/data/postgres
-# cargo will try to redownload packages @ docker-compose up so store them here.
 volumes:
   pgdata:
-
-
-
-  # rust:
-  #   build: .
-  #   restart: always
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - postgres_db
-  #   links:
-  #     - postgres_db:postgres_db
-
-
-  
-    # env_file:
-    #   - ./.env

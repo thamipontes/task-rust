@@ -1,8 +1,6 @@
 ﻿# Use a base image with the latest version of Rust installed
 FROM rust:latest
 
-ARG SQLX_OFFLINE=true
-
 # Set the working directory in the container
 WORKDIR /app
 

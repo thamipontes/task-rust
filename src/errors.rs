@@ -5,7 +5,13 @@ use serde_json::json;
 pub enum AppError {
     MissingName,
     InternalServerError,
-    TaskAlreadyExists
+    TaskAlreadyExists,
+    MissingCredential,
+    WrongCredential,
+    UserDoesNotExist,
+    TokenCreation,
+    InvalidToken,
+    UserAlreadyExist,
 }
 
 impl IntoResponse for AppError {
@@ -13,7 +19,13 @@ impl IntoResponse for AppError {
         let (status, err_msg) = match self {
             Self::InternalServerError => (StatusCode::INTERNAL_SERVER_ERROR, "an internal server error occured",),
             Self::MissingName => (StatusCode::BAD_REQUEST, "Missing Name"),
-            Self::TaskAlreadyExists => (StatusCode::BAD_REQUEST, "Task aleready exists")
+            Self::TaskAlreadyExists => (StatusCode::BAD_REQUEST, "Task aleready exists"),
+            Self::MissingCredential => (StatusCode::BAD_REQUEST, "Missing Credentials"),
+            Self::WrongCredential => (StatusCode::UNAUTHORIZED, "Wrong Credentials"),
+            Self::UserDoesNotExist => (StatusCode::UNAUTHORIZED, "User does not exist"),
+            Self::TokenCreation => (StatusCode::INTERNAL_SERVER_ERROR, "Failed to create token"),
+            Self::InvalidToken => (StatusCode::BAD_REQUEST, "Invalid Token"),
+            Self::UserAlreadyExist => (StatusCode::BAD_REQUEST, "User already exist"),
         };
 
         (status, Json(json!({"error" : err_msg}))).into_response()

@@ -4,7 +4,7 @@ use sqlx::PgPool;
 
 use crate::{errors::AppError, models};
 
-pub async fn register(Extension(pool): Extension<PgPool>, Json(task_request): Json<models::task::NewTask>) -> Result<Json<Value>, AppError> {
+pub async fn create_task(Extension(pool): Extension<PgPool>, Json(task_request): Json<models::task::NewTask>) -> Result<Json<Value>, AppError> {
     if task_request.name.is_empty() {
         return Err(AppError::MissingName);
     }

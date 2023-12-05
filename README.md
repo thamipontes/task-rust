@@ -2,7 +2,7 @@
 Create and List yout tasks!
 
 # Docker
-After downloadin the application on your machine, you will need run docker-compose. If you don't have Docker, you can download it via the links below:
+After downloading the application on your machine, you will need run docker-compose. If you don't have Docker, you can download it via the links below:
 
 - Windows:
     - https://docs.docker.com/docker-for-windows/install/
@@ -19,13 +19,15 @@ Once you have Docker and Docker-compose installed, simply run the command below 
 ```bash
 docker-compose up -d
 ```
+ps: it might take a while
+
 ## Pgadmin
 With Pgadmin you will be able to see the data that is being saved in the database.
 - Access the link http://localhost:5050/
 - Log in with the username and password below:
   - User: pgadmin4@pgadmin.org
   - Password: admin
-- Right click on Servers and select Create > Server
+- Right click on Servers and select Register > Server
 - In the General tab, enter the server name as "Tasks"
 - In the Connection tab, enter the data below:
     - Host name/address: host.docker.internal

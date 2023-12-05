@@ -5,7 +5,8 @@ use serde_json::json;
 pub enum AppError {
     MissingName,
     InternalServerError,
-    TaskAlreadyExists
+    TaskAlreadyExists,
+    TaskDoesNotExist,
 }
 
 impl IntoResponse for AppError {
@@ -13,7 +14,8 @@ impl IntoResponse for AppError {
         let (status, err_msg) = match self {
             Self::InternalServerError => (StatusCode::INTERNAL_SERVER_ERROR, "an internal server error occured",),
             Self::MissingName => (StatusCode::BAD_REQUEST, "Missing Name"),
-            Self::TaskAlreadyExists => (StatusCode::BAD_REQUEST, "Task aleready exists")
+            Self::TaskAlreadyExists => (StatusCode::BAD_REQUEST, "Task already exists"),
+            Self::TaskDoesNotExist => (StatusCode::BAD_REQUEST, "Task doesn't exists")
         };
 
         (status, Json(json!({"error" : err_msg}))).into_response()

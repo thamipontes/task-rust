@@ -11,15 +11,15 @@ use crate::{
     KEYS,
 };
 
-pub async fn login(Json(credencials): Json<models::auth::User>,
+pub async fn login(Json(credencials): Json<models::auth::NewPerson>,
 Extension(pool): Extension<PgPool>,
 ) -> Result<Json<Value>, AppError> {
     if credencials.email.is_empty() || credencials.password.is_empty() {
         return Err(AppError::MissingCredential);
     }
 
-    let user = sqlx::query_as::<_, models::auth::User>(
-        "SELECT email, password FROM user where email = $1",
+    let user = sqlx::query_as::<_, models::auth::Person>(
+        "SELECT id, email, password, created_at, updated_at FROM person where email = $1",
     )
     .bind(&credencials.email)
     .fetch_optional(&pool)
@@ -47,13 +47,13 @@ Extension(pool): Extension<PgPool>,
 }
 
 
-pub async fn create_user(Extension(pool): Extension<PgPool>, Json(user_request): Json<models::auth::NewUser>) -> Result<Json<Value>, AppError> {
+pub async fn create_user(Extension(pool): Extension<PgPool>, Json(user_request): Json<models::auth::NewPerson>) -> Result<Json<Value>, AppError> {
     if (user_request.email.is_empty() || user_request.password.is_empty()) {
         return Err(AppError::MissingCredential);
     }
 
-    let user = sqlx::query_as::<_, models::auth::User>(
-        "SELECT (email, password) FROM user where email = $1",
+    let user = sqlx::query_as::<_, models::auth::Person>(
+        "SELECT id, email, created_at, updated_at FROM person where email = $1",
     )
     .bind(&user_request.email)
     .fetch_optional(&pool)
@@ -67,7 +67,7 @@ pub async fn create_user(Extension(pool): Extension<PgPool>, Json(user_request):
         return Err(AppError::UserAlreadyExist);
     }
 
-    let result = sqlx::query("insert into user (name, email, id) values ($1, $2, $3)")
+    let result = sqlx::query("insert into person (email, password, id) values ($1, $2, $3)")
         .bind(&user_request.email)
         .bind(&user_request.password)
         .bind(Uuid::new_v4())

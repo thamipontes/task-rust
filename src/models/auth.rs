@@ -2,7 +2,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(sqlx::FromRow, Deserialize, Serialize)]
-pub struct User {
+pub struct Person {
     pub id: String,
     pub email: String,
     pub password: String,
@@ -11,8 +11,7 @@ pub struct User {
 }
 
 #[derive(sqlx::FromRow, Serialize, Deserialize)]
-pub struct NewUser {
-    pub id: String,
+pub struct NewPerson {
     pub email: String,
     pub password: String,
 }

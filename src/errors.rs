@@ -12,6 +12,7 @@ pub enum AppError {
     TokenCreation,
     InvalidToken,
     UserAlreadyExist,
+    TaskDoesNotExist,
 }
 
 impl IntoResponse for AppError {
@@ -26,6 +27,7 @@ impl IntoResponse for AppError {
             Self::TokenCreation => (StatusCode::INTERNAL_SERVER_ERROR, "Failed to create token"),
             Self::InvalidToken => (StatusCode::BAD_REQUEST, "Invalid Token"),
             Self::UserAlreadyExist => (StatusCode::BAD_REQUEST, "User already exist"),
+            Self::TaskDoesNotExist => (StatusCode::BAD_REQUEST, "Task doesn't exists")
         };
 
         (status, Json(json!({"error" : err_msg}))).into_response()

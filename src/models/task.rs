@@ -3,9 +3,9 @@
 
 #[derive(sqlx::FromRow, Deserialize, Serialize)]
 pub struct Task {
-    pub id: i64,
-    pub created_at: String,
-    pub updated_at: String,
+    pub id: String,
+    pub created_at: chrono::DateTime<chrono::Utc>,
+    pub updated_at: chrono::DateTime<chrono::Utc>,
     pub name: String,
 }
 

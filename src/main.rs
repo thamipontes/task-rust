@@ -63,9 +63,10 @@ async fn main() -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/hello", get(root))
-        .route("/tasks", post(controllers::task::create_task))
         .route("/users", post(controllers::auth::create_user))
         .layer(cors)
+        .route("/register", post(controllers::task::register))
+        .route("/tasks", get(controllers::task::find_all))
         .layer(Extension(pool));
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8080));

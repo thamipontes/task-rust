@@ -3,14 +3,16 @@ use serde::{Deserialize, Serialize};
 
 #[derive(sqlx::FromRow, Deserialize, Serialize)]
 pub struct User {
-    pub id: i64,
+    pub id: String,
     pub email: String,
     pub password: String,
+    pub created_at: chrono::DateTime<chrono::Utc>,
+    pub updated_at: chrono::DateTime<chrono::Utc>,
 }
 
 #[derive(sqlx::FromRow, Serialize, Deserialize)]
 pub struct NewUser {
-    pub id: i64,
+    pub id: String,
     pub email: String,
     pub password: String,
 }

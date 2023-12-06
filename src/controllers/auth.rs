@@ -2,6 +2,7 @@
 use jsonwebtoken::{encode, Header};
 use serde_json::{json, Value};
 use sqlx::PgPool;
+use uuid::Uuid;
 
 use crate::{
     errors::AppError,
@@ -66,9 +67,10 @@ pub async fn create_user(Extension(pool): Extension<PgPool>, Json(user_request):
         return Err(AppError::UserAlreadyExist);
     }
 
-    let result = sqlx::query("insert into user (name, email) values ($1, $2)")
+    let result = sqlx::query("insert into user (name, email, id) values ($1, $2, $3)")
         .bind(&user_request.email)
         .bind(&user_request.password)
+        .bind(Uuid::new_v4())
         .execute(&pool)
         .await
         .map_err(|err| {
